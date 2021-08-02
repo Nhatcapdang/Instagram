@@ -5,7 +5,7 @@ import {FlatList} from 'react-native';
 
 const post = [
   {
-    id: 1,
+    id: '1',
     user: {
       imageUri:
         'https://file.tinnhac.com/resize/600x-/2020/04/03/20200403104047-41cb.jpg',
@@ -18,7 +18,7 @@ const post = [
     createdAt: '11 minutes ago',
   },
   {
-    id: 2,
+    id: '2',
     user: {
       imageUri:
         'https://file.tinnhac.com/resize/600x-/2020/04/03/20200403104047-41cb.jpg',
@@ -37,7 +37,7 @@ export default function Home({navigation}: any) {
       <FlatList
         showsHorizontalScrollIndicator={false}
         data={post}
-        keyExtractor={({user}: any) => user.id}
+        keyExtractor={({id}, index: any) => index}
         renderItem={({item}) => <Post post={item} />}
         ListHeaderComponent={<Stories />}
       />

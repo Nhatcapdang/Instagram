@@ -33,14 +33,14 @@ export default function TabNavigation() {
                   color={color}
                 />
               );
-            } else if (route.name === 'TabSearch') {
+            } else if (route.name === 'TabDiscovery') {
               iconName = focused ? (
                 <Ionicons name="search-outline" size={30} color={color} />
               ) : (
                 <Ionicons name="search-sharp" size={30} color={color} />
               );
             }
-            if (route.name === 'TabFavourite') {
+            if (route.name === 'TabPost') {
               iconName = focused ? (
                 <IconFontAwesome name="heartbeat" size={30} color={color} />
               ) : (
@@ -71,8 +71,9 @@ export default function TabNavigation() {
           options={{tabBarVisible: true, title: 'Home'}}
           component={HomeStackScreen}
         />
-        <Tab.Screen name="TabSearch" component={SearchStackScreen} />
-        <Tab.Screen name="TabFavourite" component={FavouriteStackScreen} />
+        <Tab.Screen name="TabDiscovery" component={SearchStackScreen} />
+        <Tab.Screen name="TabPost" component={FavouriteStackScreen} />
+        {/* <Tab.Screen name="Notifications" component={NotificationsScreen} /> */}
         <Tab.Screen name="TabProfile" component={ProfileStackScreen} />
       </Tab.Navigator>
     </NavigationContainer>
