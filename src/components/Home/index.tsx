@@ -1,11 +1,11 @@
 import * as React from 'react';
 import Stories from './Stories';
 import Post from './Post';
-import {FlatList} from 'react-native';
+import {FlatList, RefreshControl} from 'react-native';
+import {useState} from 'react';
 
 const post = [
   {
-    id: '1',
     user: {
       imageUri:
         'https://file.tinnhac.com/resize/600x-/2020/04/03/20200403104047-41cb.jpg',
@@ -18,7 +18,6 @@ const post = [
     createdAt: '11 minutes ago',
   },
   {
-    id: '2',
     user: {
       imageUri:
         'https://file.tinnhac.com/resize/600x-/2020/04/03/20200403104047-41cb.jpg',
@@ -31,16 +30,29 @@ const post = [
     createdAt: '11 minutes ago',
   },
 ];
+
+const wait = (timeout: any) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+};
+
 export default function Home({navigation}: any) {
+  const [refreshing, setrefreshing] = useState(false);
+  const [data, setdata] = useState(post);
+
+  const onRefresh = React.useCallback(() => {
+    setrefreshing(true);
+    wait(2000).then(() => setrefreshing(false));
+  }, []);
   return (
-    <>
-      <FlatList
-        showsHorizontalScrollIndicator={false}
-        data={post}
-        keyExtractor={({id}, index: any) => index}
-        renderItem={({item}) => <Post post={item} />}
-        ListHeaderComponent={<Stories />}
-      />
-    </>
+    <FlatList
+      showsHorizontalScrollIndicator={false}
+      keyExtractor={(item, idx) => idx.toString()}
+      data={data}
+      renderItem={({item}) => <Post post={item} />}
+      ListHeaderComponent={<Stories />}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    />
   );
 }

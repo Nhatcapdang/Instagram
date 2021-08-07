@@ -5,7 +5,6 @@ import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {
   HomeStackScreen,
@@ -13,6 +12,36 @@ import {
   FavouriteStackScreen,
   ProfileStackScreen,
 } from '../StackNavigation';
+
+const TAB = {
+  HOME: 'TabHome',
+  FAVOURITE: 'TabFavourite',
+  PROFILE: 'TabProfile',
+  HISTORY: 'TabHistory',
+};
+
+const TAB_SCREEN = [
+  {
+    name: TAB.HOME,
+    component: HomeStackScreen,
+    // iconName: <MaterialIcons name="home" size={30} />,
+  },
+  {
+    name: TAB.FAVOURITE,
+    component: FavouriteStackScreen,
+    // iconName: <IconFontAwesome name="heart-o" size={25} />,
+  },
+  {
+    name: TAB.PROFILE,
+    component: ProfileStackScreen,
+    // iconName: <EvilIcons name="user" size={30} />,
+  },
+  {
+    name: TAB.HISTORY,
+    component: SearchStackScreen,
+    // iconName: <Ionicons name="search-sharp" size={30} />,
+  },
+];
 
 const Tab = createBottomTabNavigator();
 
@@ -23,58 +52,35 @@ export default function TabNavigation() {
         screenOptions={({route}) => ({
           tabBarIcon: ({focused, color, size}) => {
             let iconName;
-            if (route.name === 'TabHome') {
-              iconName = focused ? (
-                <MaterialIcons name="home" size={30} color={color} />
-              ) : (
-                <MaterialCommunityIcons
-                  name="home-outline"
-                  size={40}
-                  color={color}
-                />
+            if (route.name === TAB.HOME) {
+              iconName = <MaterialIcons name="home" size={30} color={color} />;
+            } else if (route.name === TAB.FAVOURITE) {
+              iconName = (
+                <IconFontAwesome name="heart-o" size={25} color={color} />
               );
-            } else if (route.name === 'TabDiscovery') {
-              iconName = focused ? (
-                <Ionicons name="search-outline" size={30} color={color} />
-              ) : (
+            } else if (route.name === TAB.PROFILE) {
+              iconName = <EvilIcons name="user" size={35} color={color} />;
+            } else if (route.name === TAB.HISTORY) {
+              iconName = (
                 <Ionicons name="search-sharp" size={30} color={color} />
               );
             }
-            if (route.name === 'TabPost') {
-              iconName = focused ? (
-                <IconFontAwesome name="heartbeat" size={30} color={color} />
-              ) : (
-                <IconFontAwesome name="heart-o" size={30} color={color} />
-              );
-            } else if (route.name === 'TabProfile') {
-              iconName = focused ? (
-                <IconFontAwesome name="user-circle-o" size={30} color={color} />
-              ) : (
-                <EvilIcons name="user" size={30} color={color} />
-              );
-            }
-
             // You can return any component that you like here!
             return iconName;
           },
         })}
         tabBarOptions={{
-          activeTintColor: '#730217',
-          inactiveTintColor: '#090B0D',
+          activeTintColor: '#FA4A0C',
+          inactiveTintColor: '#ADADAF',
           showLabel: false,
-
+          allowFontScaling: true,
           //   activeBackgroundColor: "blue",
           //   inactiveBackgroundColor: "green",
         }}>
-        <Tab.Screen
-          name="TabHome"
-          options={{tabBarVisible: true, title: 'Home'}}
-          component={HomeStackScreen}
-        />
-        <Tab.Screen name="TabDiscovery" component={SearchStackScreen} />
-        <Tab.Screen name="TabPost" component={FavouriteStackScreen} />
+        {TAB_SCREEN.map((val, idx) => (
+          <Tab.Screen key={idx} name={val.name} component={val.component} />
+        ))}
         {/* <Tab.Screen name="Notifications" component={NotificationsScreen} /> */}
-        <Tab.Screen name="TabProfile" component={ProfileStackScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );
