@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {Text, View} from 'react-native';
 import {Button} from 'react-native-paper';
+import DrawerContent from '../../DrawerContent';
 
 export default function Home({navigation}: any) {
   return (
@@ -16,6 +17,7 @@ export default function Home({navigation}: any) {
         onPress={() => console.log('Pressed')}>
         Press me
       </Button>
+      <DrawerContent />
     </View>
   );
 }

@@ -1,41 +1,85 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import {SafeAreaView} from 'react-native';
-import TabNavigation from './src/TabNavigation';
 import {NavigationContainer} from '@react-navigation/native';
-// import DrawerNavigator from './src/DrawerNavigator';
-
-import {Button, View} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
+import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Feather from 'react-native-vector-icons/Feather';
+import DrawerContent from './src/DrawerContent';
 
-function HomeScreen({navigation}: any) {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Button
-        onPress={() => navigation.navigate('Notifications')}
-        title="Go to notifications"
-      />
-    </View>
-  );
-}
+import {
+  FavouriteStackScreen,
+  HomeStackScreen,
+  ProfileStackScreen,
+  SearchStackScreen,
+} from './src/StackNavigation';
 
 const Drawer = createDrawerNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
-function DrawerNavigator() {
+function mainTab() {
   return (
-    <Drawer.Navigator initialRouteName="Home">
-      <Drawer.Screen name="Home" component={HomeScreen} />
-    </Drawer.Navigator>
+    <Tab.Navigator
+      initialRouteName="Home"
+      activeColor="#FA4A0C"
+      inactiveColor="#ADADAF"
+      labeled={false}
+      barStyle={{backgroundColor: '#9A9A9D'}}>
+      <Tab.Screen
+        name="Home"
+        component={HomeStackScreen}
+        options={{
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons name="home" color={color} size={26} />
+          ),
+          tabBarColor: '#9A9A9D',
+        }}
+      />
+      <Tab.Screen
+        name="Favourite"
+        component={SearchStackScreen}
+        options={{
+          tabBarIcon: ({color}) => (
+            <IconFontAwesome name="heart-o" size={25} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={FavouriteStackScreen}
+        options={{
+          tabBarIcon: ({color}) => (
+            <Feather name="user" size={27} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="History"
+        component={FavouriteStackScreen}
+        options={{
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons name="history" size={26} color={color} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
   );
 }
 
-export default function App() {
+function App() {
   return (
-    // <SafeAreaView style={{flex: 1}}>
     <NavigationContainer>
-      <TabNavigation />
-      {/* <DrawerNavigator /> */}
+      <Drawer.Navigator
+        drawerContent={(props: any) => <DrawerContent {...props} />}>
+        <Drawer.Screen name="Home" component={mainTab} />
+        <Drawer.Screen name="Search" component={SearchStackScreen} />
+        {/* <Drawer.Screen name="Favourite" component={FavouriteStackScreen} />
+        <Drawer.Screen name="Profile" component={ProfileStackScreen} /> */}
+      </Drawer.Navigator>
     </NavigationContainer>
-    // </SafeAreaView>
   );
 }
+
+export default App;
